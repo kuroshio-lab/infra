@@ -14,9 +14,9 @@ locals {
 # Base IAM role for each application
 resource "aws_iam_role" "app_role" {
   for_each = toset(local.applications)
-  
+
   name = "kuroshio-lab-${each.value}-role"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -32,7 +32,7 @@ resource "aws_iam_role" "app_role" {
       }
     ]
   })
-  
+
   tags = {
     Application = each.value
   }
@@ -41,10 +41,10 @@ resource "aws_iam_role" "app_role" {
 # S3 access policy for each app (scoped to their prefix)
 resource "aws_iam_role_policy" "app_s3_access" {
   for_each = toset(local.applications)
-  
+
   name = "s3-access"
   role = aws_iam_role.app_role[each.key].id
-  
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -73,7 +73,7 @@ resource "aws_iam_role_policy" "app_s3_access" {
 # CloudWatch Logs access (for application logging)
 resource "aws_iam_role_policy_attachment" "app_cloudwatch" {
   for_each = toset(local.applications)
-  
+
   role       = aws_iam_role.app_role[each.key].name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }

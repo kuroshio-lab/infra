@@ -14,7 +14,7 @@ Before running Terraform, you need to create the S3 bucket that stores Terraform
 
 ```bash
 # Create the state bucket
-aws s3 mb s3://kuroshio-lab-terraform-state --region us-east-1
+aws s3 mb s3://kuroshio-lab-terraform-state --region eu-west-3
 
 # Enable versioning
 aws s3api put-bucket-versioning \
@@ -27,7 +27,7 @@ aws dynamodb create-table \
   --attribute-definitions AttributeName=LockID,AttributeType=S \
   --key-schema AttributeName=LockID,KeyType=HASH \
   --billing-mode PAY_PER_REQUEST \
-  --region us-east-1
+  --region eu-west-3
 ```
 
 ### 2. Initialize Terraform

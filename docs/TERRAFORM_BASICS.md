@@ -27,7 +27,7 @@ Variables make your code reusable:
 ```hcl
 variable "region" {
   type    = string
-  default = "us-east-1"
+  default = "eu-west-3"
 }
 
 # Use it:
@@ -99,7 +99,7 @@ terraform destroy
 ```hcl
 resource "aws_s3_bucket" "shared_assets" {
   bucket = "marinex-assets"
-  
+
   tags = {
     Name = "marinex-assets"
   }
@@ -113,7 +113,7 @@ resource "aws_s3_bucket" "shared_assets" {
 ```hcl
 resource "aws_iam_role" "app_role" {
   name = "my-app-role"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
