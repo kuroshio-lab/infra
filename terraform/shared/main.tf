@@ -3,7 +3,7 @@
 
 terraform {
   required_version = ">= 1.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -14,7 +14,7 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
-  
+
   # Default tags applied to ALL resources
   default_tags {
     tags = {
@@ -23,4 +23,13 @@ provider "aws" {
       Environment = "production"
     }
   }
+}
+
+module "s3_bucket" {
+  source = "./s3"
+}
+
+module "dns" {
+  source      = "./dns"
+  domain_name = var.domain_name
 }
