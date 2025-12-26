@@ -18,3 +18,27 @@ variable "environment" {
   type        = string
   default     = "production"
 }
+
+variable "google_site_verification_token_for_dns" {
+  description = "Token for Google site verification to be passed to DNS module"
+  type        = string
+  sensitive   = true
+}
+
+variable "resend_dkim_public_key_for_dns" {
+  description = "Resend DKIM public key for TXT record to be passed to DNS module"
+  type        = string
+  sensitive   = true
+}
+
+variable "acm_validation_cname_name_for_dns" {
+  description = "CNAME name for ACM certificate validation to be passed to DNS module"
+  type        = string
+  sensitive   = true
+}
+
+variable "acm_validation_cname_value_for_dns" {
+  description = "CNAME value for ACM certificate validation to be passed to DNS module"
+  type        = string
+  sensitive   = true
+}

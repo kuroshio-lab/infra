@@ -27,15 +27,18 @@ infra/
 
 1. **Prerequisites**: AWS CLI + Terraform installed
 2. **Setup state backend** (see docs/GETTING_STARTED.md)
-3. **Deploy shared infrastructure**:
+3. **Configure Variables & Secrets**:
+   Create a `personal.tfvars` file in `terraform/shared/` to provide values for input variables, especially sensitive ones. Refer to `terraform/shared/dns/variables.tf` and `terraform/shared/variables.tf` for required variables.
+   **IMPORTANT**: Ensure `personal.tfvars` is added to your `.gitignore` and *never* committed to the repository. For an example of the variables needed, you can check `terraform/shared/personal.tfvars.example` (if you create one with dummy values).
+4. **Deploy shared infrastructure**:
 
 ```bash
 cd terraform/shared
 terraform init
-terraform apply
+terraform apply -var-file="personal.tfvars
 ```
 
-4. **Configure domain nameservers** with output from `terraform output name_servers`
+5. **Configure domain nameservers** with output from `terraform output name_servers`
 
 ## What This Deploys
 
@@ -51,6 +54,38 @@ terraform apply
 - CloudWatch: ~$1-2/month
 
 **Total: ~$5-10/month**
+
+
+### 2. Configure Local Variables and Secrets
+
+Before running `terraform init` and `apply`, you need to set up your local configuration variables, especially for sensitive data.
+
+1.  **Review Required Variables**:
+    *   Examine `terraform/shared/variables.tf` for global variables.
+    *   Examine `terraform/shared/dns/variables.tf` for DNS-specific variables.
+    These files define what inputs your Terraform configuration expects.
+
+2.  **Create Your Personal Variables File**:
+    In the `terraform/shared/` directory, create a new file named `personal.tfvars` (or any `.tfvars` file name you prefer, but `personal.tfvars` is a common convention). This file will contain the actual values for the variables, including any sensitive information.
+
+
+    # terraform/shared/personal.tfvars
+    # This file should NEVER be committed to Git! Add it to your .gitignore.
+
+    aws_region = "eu-west-3" # Example: your desired AWS region
+    domain_name = "kuroshio-lab.com" # Example: your domain name
+    environment = "production" # Example: your environment
+
+    # Sensitive variables for the DNS module (defined in terraform/shared/variables.tf)
+    google_site_verification_token_for_dns = "YOUR_GOOGLE_SITE_VERIFICATION_TOKEN"
+    resend_dkim_public_key_for_dns       = "YOUR_RESEND_DKIM_PUBLIC_KEY"
+    acm_validation_cname_name_for_dns    = "YOUR_ACM_VALIDATION_CNAME_NAME"
+    acm_validation_cname_value_for_dns   = "YOUR_ACM_VALIDATION_CNAME_VALUE"
+        *Replace the placeholder values with your actual credentials/tokens.*
+
+3.  **Add to `.gitignore`**:
+    Ensure your `personal.tfvars` file (or any file containing secrets) is added to your `.gitignore` file to prevent accidental commitment to version control.
+
 
 ## Documentation
 

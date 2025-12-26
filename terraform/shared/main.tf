@@ -29,7 +29,13 @@ module "s3_bucket" {
   source = "./s3"
 }
 
+
 module "dns" {
-  source      = "./dns"
-  domain_name = var.domain_name
+  source = "./dns"
+
+  domain_name                  = var.domain_name
+  google_site_verification_token = var.google_site_verification_token_for_dns
+  resend_dkim_public_key       = var.resend_dkim_public_key_for_dns
+  acm_validation_cname_name    = var.acm_validation_cname_name_for_dns
+  acm_validation_cname_value   = var.acm_validation_cname_value_for_dns
 }
