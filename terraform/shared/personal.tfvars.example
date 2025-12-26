@@ -1,0 +1,8 @@
+aws_region = "eu-west-3"
+domain_name = "example.com"
+environment = "staging"
+
+google_site_verification_token_for_dns = "EXAMPLE_GOOGLE_SITE_VERIFICATION_TOKEN"
+resend_dkim_public_key_for_dns = "EXAMPLE_RESEND_DKIM_PUBLIC_KEY"
+acm_validation_cname_name_for_dns = "EXAMPLE_ACM_VALIDATION_CNAME_NAME"
+acm_validation_cname_value_for_dns = "EXAMPLE_ACM_VALIDATION_CNAME_VALUE"

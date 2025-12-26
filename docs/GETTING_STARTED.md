@@ -31,6 +31,28 @@ aws dynamodb create-table \
 ```
 
 ### 2. Initialize Terraform
+Before running `terraform init` and `apply`, you need to set up your local configuration variables, especially for sensitive data.
+
+1.  **Review Required Variables**:
+    *   Examine `terraform/shared/variables.tf` for global variables.
+    *   Examine `terraform/shared/dns/variables.tf` for DNS-specific variables.
+    These files define what inputs your Terraform configuration expects.
+
+2.  **Create Your Personal Variables File**:
+    In the `terraform/shared/` directory, create a new file named `personal.tfvars` (or any `.tfvars` file name you prefer, but `personal.tfvars` is a common convention). This file will contain the actual values for the variables, including any sensitive information.
+
+    # terraform/shared/personal.tfvars
+    # This file should NEVER be committed to Git! Add it to your .gitignore.
+
+    aws_region = "eu-west-3" # Example: your desired AWS region
+    domain_name = "kuroshio-lab.com" # Example: your domain name
+    environment = "production" # Example: your environment
+
+    # Sensitive variables for the DNS module (defined in terraform/shared/variables.tf)
+    google_site_verification_token_for_dns = "YOUR_GOOGLE_SITE_VERIFICATION_TOKEN"
+    resend_dkim_public_key_for_dns       = "YOUR_RESEND_DKIM_PUBLIC_KEY"
+    acm_validation_cname_name_for_dns    = "YOUR_ACM_VALIDATION_CNAME_NAME"
+    acm_validation_cname_value_for_dns   = "YOUR_ACM_VALIDATION_CNAME_VALUE"
 
 ```bash
 cd terraform/shared
