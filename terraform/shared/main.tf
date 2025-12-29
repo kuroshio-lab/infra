@@ -4,6 +4,14 @@
 terraform {
   required_version = ">= 1.0"
 
+  backend "s3" {
+    bucket         = "kuroshio-lab-terraform-state"
+    key            = "shared/terraform.tfstate"
+    region         = "eu-west-3"
+    dynamodb_table = "kuroshio-lab-terraform-locks"
+    encrypt        = true
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
